@@ -19,6 +19,8 @@ public:
 
     void makeAMove();
 
+    QString getNote() const;
+
 private:
 
     Strategy strategy;

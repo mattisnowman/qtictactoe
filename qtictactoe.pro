@@ -34,7 +34,8 @@ SOURCES += \
         src/botactor.cpp \
         src/endview.cpp \
         src/actor.cpp \
-        src/newseriesdialog.cpp
+        src/newseriesdialog.cpp \
+    src/actornote.cpp
 
 HEADERS += \
         src/mainwindow.h \
@@ -46,4 +47,5 @@ HEADERS += \
         src/botactor.h \
         src/endview.h \
         src/actor.h \
-        src/newseriesdialog.h
+        src/newseriesdialog.h \
+    src/actornote.h

@@ -6,7 +6,7 @@
 #include "botactor.h"
 
 GameScene::GameScene(QObject *parent):
-    QGraphicsScene(parent), dialogItem(nullptr)
+    QGraphicsScene(parent), endItem(nullptr)
 {
     this->base = new BoardBase();
     this->addItem(this->base);
@@ -22,8 +22,10 @@ GameScene::GameScene(QObject *parent):
             this->addItem(b);
         }
     }
-
-    this->newSeries({new PlayerActor(this, 0, "Not a robot"), new BotActor(this, 1, "Matti", BotActor::quickestWin)});
+    this->actorNote = new ActorNote();
+    this->actorNote->setPos(0, 300);
+    this->addItem(this->actorNote);
+    this->newSeries({new PlayerActor(this, 0, "Not a robot"), new BotActor(this, 1, "GoodBot", BotActor::quickestWin)});
 }
 
 void GameScene::newSeries(const QList<Actor*> &players)
@@ -59,24 +61,28 @@ void GameScene::nextTurn()
     {
         Game::Outcome result = game.whoWon();
 
+        this->actorNote->setMessage(-1, "");
+
         if (result == Game::player1win)
             this->player1Wins++;
         if (result == Game::player2win)
             this->player2Wins++;
 
-        dialogItem = new EndView(this,
+        endItem = new EndView(this,
                                  this->players[0]->getName(),
                                  this->players[1]->getName(),
                                  this->player1Wins,
                                  this->player2Wins);
 
-        this->addItem(dialogItem);
+        this->addItem(endItem);
         return;
     }
 
     this->activePlayer++;
     if (this->activePlayer >= this->players.size())
         this->activePlayer -= this->players.size();
+
+    this->actorNote->setMessage(this->activePlayer, this->players[this->activePlayer]->getNote());
 
     //makeAMove();
     QTimer::singleShot(25, this, SLOT(makeAMove()));
@@ -97,10 +103,10 @@ void GameScene::itemClicked(int id)
 
 void GameScene::newGame()
 {
-    if (this->dialogItem)
+    if (this->endItem)
     {
-        delete this->dialogItem;
-        this->dialogItem = nullptr;
+        delete this->endItem;
+        this->endItem = nullptr;
     }
 
     this->game.clear();

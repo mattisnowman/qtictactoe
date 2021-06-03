@@ -10,6 +10,7 @@
 #include "game.h"
 #include "actor.h"
 #include "endview.h"
+#include "actornote.h"
 
 class GameScene : public QGraphicsScene
 {
@@ -41,11 +42,13 @@ private:
 
     BoardBase *base;
 
+    EndView *endItem;
+
     QList<Brick*> bricks;
 
-    QList<Actor*> players;
+    ActorNote *actorNote;
 
-    QGraphicsItem *dialogItem;
+    QList<Actor*> players;
 
     int activePlayer;
 

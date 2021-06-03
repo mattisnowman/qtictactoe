@@ -23,3 +23,8 @@ void PlayerActor::itemClicked(int id)
             this->finishedTurn();
     }
 }
+
+QString PlayerActor::getNote() const
+{
+    return this->name + "s turn";
+}

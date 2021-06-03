@@ -23,6 +23,12 @@ void Actor::itemClicked(int id)
     Q_UNUSED(id);
 }
 
+QString Actor::getNote() const
+{
+    return QString();
+}
+
+
 const QString &Actor::getName() const
 {
     return this->name;

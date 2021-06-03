@@ -61,3 +61,7 @@ void BotActor::makeAMove()
     this->finishedTurn();
 }
 
+QString BotActor::getNote() const
+{
+    return this->getName() + " is thinking.";
+}

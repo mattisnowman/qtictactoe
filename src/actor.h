@@ -17,6 +17,8 @@ public:
 
     virtual void itemClicked(int id);
 
+    virtual QString getNote() const;
+
     const QString &getName() const;
 
     void finishedTurn();
