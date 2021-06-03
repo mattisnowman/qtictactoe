@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QMenu *gMenu = this->menuBar()->addMenu("game");
     gMenu->addAction("new game", this, &MainWindow::newSeries);
-    gMenu->addAction("exit", this, &MainWindow::exit);
+    gMenu->addAction("exit", this, &MainWindow::close);
 }
 
 
