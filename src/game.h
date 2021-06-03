@@ -9,6 +9,7 @@ class Game
 {
 public:
 
+    // An enum type to describe the state of the board for a single player
     enum boardstate{
         empty = 0b000000000,
         a00   = 0b000000001,
@@ -41,31 +42,48 @@ public:
 
     Game();
 
+    // Static functions to work with Boardstate
+
+    // Return a boardstate with a single brick at position i
     static Boardstate fromIndices(const int &i);
 
+    // Return a boardstate with a single brick at row i, column j
     static Boardstate fromIndices(const int &i, const int &j);
 
+    // Return true if the boardstates of the 2 players is valid, i.e. not overlapping
     static bool isValidState(const Boardstate &p1, const Boardstate &p2);
 
+    // Return all leagal moves for two Boardstates describing 2 players
     static Boardstate legalMoves(const Boardstate &p1, const Boardstate &p2);
 
+    // Check if boardstate is a win */
     static bool isWin(const Boardstate &s);
 
+    // Calculate the chance of winning if all moves are randomized
     static double chanceOfWinning(const Boardstate &player, const Boardstate &opponent);
 
+    // Returns a positive number with the minimum steps to win +1
+    // Returns a negative number with the maximum steps until loose -1, if no win is predicted
+    // A draw counts as a loss (negative number) but with one additional step added (-2)
     static int minStepsToWin(Boardstate player, Boardstate opponent);
 
+    // Return the move with the highest chance of winning if both players follow this strategy
     static Boardstate highestChanceOfWinningMove(const Boardstate &player, const Boardstate &opponent);
 
+    // Return the move that leads to quickest win or to the latest loose if winning is not possible
     static Boardstate quickestWinOrLatestLooseMove(const Boardstate &player, const Boardstate &opponent);
 
+    // Return a random but valid move
     static Boardstate randomMove(const Boardstate &player, const Boardstate &opponent);
 
+    // Three functions to simplify output on the command line:
     static QString toString(const Boardstate &p1, const Boardstate &p2 = empty);
 
     static QString printChanceToWin(const Boardstate &p1, const Boardstate &p2, bool swap = false);
 
     static QString printStepsToWin(const Boardstate &p1, const Boardstate &p2, bool swap = false);
+
+
 
     void clear();
 

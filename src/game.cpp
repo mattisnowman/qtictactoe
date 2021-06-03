@@ -67,37 +67,43 @@ int Game::minStepsToWin(Boardstate player, Boardstate opponent)
 
     Boardstate validMoves = legalMoves(player, opponent);
 
+    //This is a win. No more steps to win required: return 0
     if (isWin(player))
-        return 0;
+        return 1;
+    //This is a loss, Return negative number.
     if (isWin(opponent))
         return -1;
+    //Rate a draw as a loose but at a later point than a straightout loss.
     if (validMoves == empty)
-        return -1;
+        return -2;
 
+    // If game is not decided let players make moves recursivly until it is decided
     for (int i=0; i<9; i++)
     {
+        // Generate moves by iterating over all 9 fields
         Boardstate move = Boardstate(1 << i);
 
         if (move & validMoves)
         {
-            if (isWin(player | move))
-                return 1;
+            // Make the move and let the other player make a move.
+            // Recursion until win or loose is reached
+            // The (-) takes into account a perspective change from player to opponent
             int stepstoWin = -minStepsToWin(opponent, player | move);
-            if (stepstoWin > 0)
+            if (stepstoWin >= 0) // A win
             {
                 bestStepstoWin = qMin(stepstoWin, bestStepstoWin);
             }
-            else if  (stepstoWin < 0)
+            else if  (stepstoWin < 0) //From here on only losses/draws
             {
                 bestStepstoNotLoose = qMin(stepstoWin, bestStepstoNotLoose);
             }
         }
     }
 
-    if (bestStepstoWin < 9)
-        return bestStepstoWin+1;
-    else
-        return bestStepstoNotLoose-1;
+    if (bestStepstoWin < 9)           // This means the game is winnable
+        return bestStepstoWin+1;      // Return steps to finish from here + 1
+    else                              // Game cannot be won
+        return bestStepstoNotLoose-1; // Return - (steps until loose + 1)
 }
 
 Game::Boardstate Game::highestChanceOfWinningMove(const Boardstate &player, const Boardstate &opponent)
@@ -154,7 +160,7 @@ Game::Boardstate Game::quickestWinOrLatestLooseMove(const Boardstate &player, co
                     bestMove = move;
                 }
             }
-            else if  (stepstoWin < 0)
+            else //if (stepstoWin < 0)
             {
                 if (stepstoWin < bestStepstoNotLoose)
                 {
