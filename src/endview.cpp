@@ -10,7 +10,7 @@ const QColor blue1(105, 136, 181);
 const QColor blue2(81, 97, 104);
 const QColor red1(190, 108, 86);
 const QColor red2(148, 92, 91);
-const QColor gray(100, 100, 100);
+const QColor gray(80, 80, 80);
 
 
 EndView::EndView(GameScene *scene, QString player1, QString player2, int player1wins, int player2wins):
@@ -73,26 +73,32 @@ void EndView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     if (this->scene->getGame().whoWon() == Game::draw)
     {
         painter->setPen(gray);
-        painter->drawText(QRect(0, 100, 300, 100), Qt::AlignCenter, "DRAW");
+        painter->drawText(QRect(0, 70, 300, 100), Qt::AlignCenter, "DRAW");
     }
     else if (this->scene->getGame().whoWon() == Game::player1win)
     {
-        painter->drawText(QRect(0, 100, 300, 100), Qt::AlignCenter, QString("%1 wins!").arg(this->player1));
+        painter->drawText(QRect(0, 70, 300, 100), Qt::AlignCenter, QString("%1 wins!").arg(this->player1));
     }
     else if (this->scene->getGame().whoWon() == Game::player2win)
     {
         painter->setPen(red1);
-        painter->drawText(QRect(0, 100, 300, 100), Qt::AlignCenter, QString("%1 wins!").arg(this->player2));
+        painter->drawText(QRect(0, 70, 300, 100), Qt::AlignCenter, QString("%1 wins!").arg(this->player2));
     }
 
     painter->setPen(blue1);
-    painter->drawText(QRect(0, 160, 140, 40), Qt::AlignRight, QString("%1").arg(this->player1wins));
+    painter->drawText(QRect(0, 140, 140, 40), Qt::AlignRight, QString("%1").arg(this->player1wins));
 
     painter->setPen(gray);
-    painter->drawText(QRect(0, 160, 300, 40), Qt::AlignHCenter, QString(":"));
+    painter->drawText(QRect(0, 140, 300, 40), Qt::AlignHCenter, QString(":"));
 
     painter->setPen(red1);
-    painter->drawText(QRect(160, 160, 140, 40), Qt::AlignLeft, QString("%1").arg(this->player2wins));
+    painter->drawText(QRect(160, 140, 140, 40), Qt::AlignLeft, QString("%1").arg(this->player2wins));
+
+    font.setPointSize(12);
+    painter->setFont(font);
+    painter->setPen(gray);
+    painter->drawText(QRect(0, 180, 300, 30), Qt::AlignHCenter, QString("Click anywhere to continue."));
+
 
 
     painter->restore();
