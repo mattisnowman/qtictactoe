@@ -128,7 +128,6 @@ void NewSeriesDialog::generateActorsAndStart()
             case 2:
                 s = BotActor::random;
         }
-        qDebug() << s;
         player2 = new BotActor(nullptr, 1, ai2->currentText(), s);
     }
 
