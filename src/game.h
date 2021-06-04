@@ -59,31 +59,8 @@ public:
     // Check if boardstate is a win */
     static bool isWin(const Boardstate &s);
 
-    // Calculate the chance of winning if all moves are randomized
-    static double chanceOfWinning(const Boardstate &player, const Boardstate &opponent);
-
-    // Returns a positive number with the minimum steps to win +1
-    // Returns a negative number with the maximum steps until loose -1, if no win is predicted
-    // A draw counts as a loss (negative number) but with one additional step added (-2)
-    static int minStepsToWin(Boardstate player, Boardstate opponent);
-
-    // Return the move with the highest chance of winning if both players follow this strategy
-    static Boardstate highestChanceOfWinningMove(const Boardstate &player, const Boardstate &opponent);
-
-    // Return the move that leads to quickest win or to the latest loose if winning is not possible
-    static Boardstate quickestWinOrLatestLooseMove(const Boardstate &player, const Boardstate &opponent);
-
-    // Return a random but valid move
-    static Boardstate randomMove(const Boardstate &player, const Boardstate &opponent);
-
     // Three functions to simplify output on the command line:
     static QString toString(const Boardstate &p1, const Boardstate &p2 = empty);
-
-    static QString printChanceToWin(const Boardstate &p1, const Boardstate &p2, bool swap = false);
-
-    static QString printStepsToWin(const Boardstate &p1, const Boardstate &p2, bool swap = false);
-
-
 
     void clear();
 
