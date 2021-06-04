@@ -1,5 +1,7 @@
 #include "boardbase.h"
 
+#include "colors.h"
+
 #include <QPainter>
 
 BoardBase::BoardBase(QGraphicsItem *parent):
@@ -21,7 +23,7 @@ void BoardBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->save();
     painter->setRenderHints(QPainter::HighQualityAntialiasing);
-    painter->setPen(QPen(QColor(70, 70, 70), 4, Qt::SolidLine, Qt::RoundCap));
+    painter->setPen(QPen(gray, 4, Qt::SolidLine, Qt::RoundCap));
     for (auto i : {100, 200})
     {
         painter->drawLine(QLineF(0, i, 300, i));

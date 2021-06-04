@@ -50,6 +50,8 @@ private:
 
     QList<Actor*> players;
 
+    int startingPlayer;
+
     int activePlayer;
 
     int player1Wins;

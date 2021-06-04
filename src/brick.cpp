@@ -1,12 +1,11 @@
 #include "brick.h"
 
+#include "gamescene.h"
+#include "colors.h"
+
 #include <QPainter>
 #include <QDebug>
 
-#include "gamescene.h"
-
-const QColor blue1(105, 136, 181);
-const QColor red1(190, 108, 86);
 
 Brick::Brick(int id, GameScene *scene):
     QGraphicsItem(), id(id), scene(scene)

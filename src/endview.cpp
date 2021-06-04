@@ -4,14 +4,7 @@
 #include <QDebug>
 
 #include "gamescene.h"
-
-
-const QColor blue1(105, 136, 181);
-const QColor blue2(81, 97, 104);
-const QColor red1(190, 108, 86);
-const QColor red2(148, 92, 91);
-const QColor gray(80, 80, 80);
-
+#include "colors.h"
 
 EndView::EndView(GameScene *scene, QString player1, QString player2, int player1wins, int player2wins):
     QGraphicsItem(), scene(scene), player1(player1), player2(player2), player1wins(player1wins), player2wins(player2wins)
@@ -64,7 +57,7 @@ void EndView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     if((winpattern & Game::win_d2) == Game::win_d2)
         painter->drawLine(25, 275, 275, 25);
 
-    painter->fillRect(-100,-100,500,500, QColor(255, 255, 255, 150));
+    painter->fillRect(-100,-100,500,500, QColor(255, 255, 255, 180));
 
     QFont font = painter->font();
     font.setPointSize(25);

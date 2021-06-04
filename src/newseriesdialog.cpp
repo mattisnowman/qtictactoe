@@ -76,6 +76,8 @@ NewSeriesDialog::NewSeriesDialog(QWidget *parent):
     h->addStretch();
     h->addWidget(cancelB);
     h->addWidget(okB);
+
+    okB->setFocus();
 }
 
 void NewSeriesDialog::updateDialog()

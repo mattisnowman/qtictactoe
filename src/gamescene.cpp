@@ -11,6 +11,7 @@ GameScene::GameScene(QObject *parent):
     this->base = new BoardBase();
     this->addItem(this->base);
     this->activePlayer = -1;
+    this->startingPlayer = -1;
 
     for(int i=0; i<3; i++)
     {
@@ -39,6 +40,8 @@ void GameScene::newSeries(const QList<Actor*> &players)
     {
         p->setParent(this);
     }
+
+    this->startingPlayer = 0;
 
     this->player1Wins = 0;
     this->player2Wins = 0;
@@ -110,7 +113,11 @@ void GameScene::newGame()
     }
 
     this->game.clear();
-    this->activePlayer = -1;
+    this->activePlayer = this->startingPlayer-1;
+
+    this->startingPlayer++;
+    if (this->startingPlayer >= this->players.size())
+        this->startingPlayer -= this->players.size();
 
     for(auto b : this->bricks)
     {

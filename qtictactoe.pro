@@ -48,4 +48,5 @@ HEADERS += \
         src/endview.h \
         src/actor.h \
         src/newseriesdialog.h \
-        src/actornote.h
+        src/actornote.h \
+    src/colors.h

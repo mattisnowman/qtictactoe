@@ -30,7 +30,7 @@ void BotActor::makeAMove()
     if (strategy == quickestWin)
     {
         qDebug() << "-------------";
-        qDebug() << this->name << ": using quickest way to win:";
+        qDebug().noquote() << this->name << ": using quickest way to win:";
         qDebug().noquote() << Game::printStepsToWin(player, opponent);
         qDebug() << "-------------";
         move = Game::quickestWinOrLatestLooseMove(player, opponent);
@@ -38,7 +38,7 @@ void BotActor::makeAMove()
     else if (strategy == highestProbability)
     {
         qDebug() << "-------------";
-        qDebug() << this->name << ": using highest probability to win:";
+        qDebug().noquote() << this->name << ": using highest probability to win:";
         qDebug().noquote() << Game::printChanceToWin(player, opponent);
         qDebug() << "-------------";
         move = Game::highestChanceOfWinningMove(player, opponent);

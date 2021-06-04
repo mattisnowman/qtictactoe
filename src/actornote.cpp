@@ -1,9 +1,8 @@
 #include "actornote.h"
 
-#include <QPainter>
+#include "colors.h"
 
-const QColor blue1(105, 136, 181);
-const QColor red1(190, 108, 86);
+#include <QPainter>
 
 ActorNote::ActorNote(QGraphicsItem *parent):
     QGraphicsItem(parent), playerID(-1)
