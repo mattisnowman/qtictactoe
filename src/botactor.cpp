@@ -30,7 +30,7 @@ void BotActor::makeAMove()
     {
         qDebug() << "-------------";
         qDebug().noquote() << this->name << ": using quickest way to win:";
-        qDebug().noquote() << printStepsToWin(player, opponent);
+        qDebug().noquote() << printStepsToWin(player, opponent, playerId == 1);
         qDebug() << "-------------";
         move = quickestWinOrLatestLooseMove(player, opponent);
     }
@@ -38,7 +38,7 @@ void BotActor::makeAMove()
     {
         qDebug() << "-------------";
         qDebug().noquote() << this->name << ": using highest probability to win:";
-        qDebug().noquote() << printChanceToWin(player, opponent);
+        qDebug().noquote() << printChanceToWin(player, opponent, playerId == 1);
         qDebug() << "-------------";
         move = highestChanceOfWinningMove(player, opponent);
     }
@@ -122,6 +122,7 @@ int BotActor::minStepsToWin(Game::Boardstate player, Game::Boardstate opponent)
             // Recursion until win or loose is reached
             // The (-) takes into account a perspective change from player to opponent
             int stepstoWin = -minStepsToWin(opponent, player | move);
+
             if (stepstoWin >= 0) // A win
             {
                 bestStepstoWin = qMin(stepstoWin, bestStepstoWin);
