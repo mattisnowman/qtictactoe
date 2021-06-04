@@ -1,14 +1,14 @@
-#include "botactor.h"
+#include "botquickest.h"
 
 #include "gamescene.h"
 
-BotActor::BotActor(GameScene *game, int playerId,  QString name, Strategy s):
-    Actor(game, name, playerId), strategy(s)
+BotQuickest::BotQuickest(GameScene *game, int playerId,  QString name):
+    Actor(game, name, playerId)
 {
 
 }
 
-void BotActor::makeAMove()
+void BotQuickest::makeAMove()
 {
     Game &g = this->game->getGame();
 
@@ -26,25 +26,10 @@ void BotActor::makeAMove()
         opponent = g.getPlayer1();
     }
 
-    if (strategy == quickestWin)
-    {
-        qDebug().noquote() << this->name << ": using quickest way to win:";
-        qDebug().noquote() << printStepsToWin(player, opponent, playerId == 1);
-        qDebug() << "-------------";
-        move = quickestWinOrLatestLooseMove(player, opponent);
-    }
-    else if (strategy == highestProbability)
-    {
-        qDebug() << "-------------";
-        qDebug().noquote() << this->name << ": using highest probability to win:";
-        qDebug().noquote() << printChanceToWin(player, opponent, playerId == 1);
-        move = highestChanceOfWinningMove(player, opponent);
-    }
-    else if (strategy == random)
-    {
-        qDebug().noquote() << this->name << ": making random move";
-        move = randomMove(player, opponent);
-    }
+    qDebug().noquote() << this->name << ": using quickest way to win:";
+    qDebug().noquote() << printStepsToWin(player, opponent, playerId == 1);
+    qDebug() << "-------------";
+    move = quickestWinOrLatestLooseMove(player, opponent);
 
 
     if (playerId == 0)
@@ -58,40 +43,12 @@ void BotActor::makeAMove()
     this->finishedTurn();
 }
 
-QString BotActor::getNote() const
+QString BotQuickest::getNote() const
 {
     return this->getName() + " is thinking.";
 }
 
-double BotActor::chanceOfWinning(const Game::Boardstate &player, const Game::Boardstate &opponent)
-{
-    if (Game::isWin(player))
-        return 1.;
-    else if (Game::isWin(opponent))
-        return 0.;
-
-    Game::Boardstate validMoves = Game::legalMoves(player, opponent);
-
-    if (validMoves == Game::empty)
-        return 0.5;
-
-    double sumofChance = 0.;
-    int numberOfLegalMoves = 0;
-
-    for (int i=0; i<9; i++)
-    {
-        Game::Boardstate move = Game::Boardstate(1 << i);
-
-        if (move & validMoves)
-        {
-            sumofChance += 1.-chanceOfWinning(opponent, player | move);
-            numberOfLegalMoves += 1;
-        }
-    }
-    return sumofChance / numberOfLegalMoves;
-}
-
-int BotActor::minStepsToWin(Game::Boardstate player, Game::Boardstate opponent)
+int BotQuickest::minStepsToWin(Game::Boardstate player, Game::Boardstate opponent)
 {
     int bestStepstoWin = 20;
     int bestStepstoNotLoose = 0;
@@ -140,30 +97,7 @@ int BotActor::minStepsToWin(Game::Boardstate player, Game::Boardstate opponent)
         return bestStepstoNotLoose-1; // Return - (steps until loose + 1)
 }
 
-Game::Boardstate BotActor::highestChanceOfWinningMove(const Game::Boardstate &player, const Game::Boardstate &opponent)
-{
-    double bestChance = -1.;
-    Game::Boardstate bestMove = Game::empty;
-    Game::Boardstate validMoves = Game::legalMoves(player, opponent);
-
-    for (int i=0; i<9; i++)
-    {
-        Game::Boardstate move = Game::Boardstate(1 << i);
-
-        if (move & validMoves)
-        {
-            double chancetoWin = 1-chanceOfWinning(opponent, player | move);
-            if (chancetoWin > bestChance || bestMove == Game::empty)
-            {
-                bestChance = chancetoWin;
-                bestMove = move;
-            }
-        }
-    }
-    return bestMove;
-}
-
-Game::Boardstate BotActor::quickestWinOrLatestLooseMove(const Game::Boardstate &player, const Game::Boardstate &opponent)
+Game::Boardstate BotQuickest::quickestWinOrLatestLooseMove(const Game::Boardstate &player, const Game::Boardstate &opponent)
 {
     int bestStepstoWin = 20;
     int bestStepstoNotLoose = 0;
@@ -214,47 +148,7 @@ Game::Boardstate BotActor::quickestWinOrLatestLooseMove(const Game::Boardstate &
     return bestMove;
 }
 
-Game::Boardstate BotActor::randomMove(const Game::Boardstate &player, const Game::Boardstate &opponent)
-{
-    Game::Boardstate validMoves = Game::legalMoves(player, opponent);
-    if (validMoves == Game::empty)
-        return validMoves;
-    Game::Boardstate move;
-    do
-    {
-        move = Game::Boardstate(1 << rand() % 9);
-    }
-    while (!(move & validMoves));
-    return move;
-}
-
-
-QString BotActor::printChanceToWin(const Game::Boardstate &p1, const Game::Boardstate &p2, bool swap)
-{
-    QString s;
-    for (int i=0; i<3; i++)
-    {
-        for (int j=0; j<3; j++)
-        {
-            if (p1 & Game::fromIndices(i,j))
-                s += swap?"o":"x";
-            else if (p2 & Game::fromIndices(i,j))
-                s +=swap?"x":"o";
-            else
-            {
-                double chance = chanceOfWinning(p1 | Game::fromIndices(i,j), p2);
-                s += QString::number(chance);
-            }
-            if (j != 2)
-                s += "|";
-        }
-        if (i != 2)
-            s += "\n-+-+-\n";
-    }
-    return s;
-}
-
-QString BotActor::printStepsToWin(const Game::Boardstate &p1, const Game::Boardstate &p2, bool swap)
+QString BotQuickest::printStepsToWin(const Game::Boardstate &p1, const Game::Boardstate &p2, bool swap)
 {
     QString s;
     for (int i=0; i<3; i++)

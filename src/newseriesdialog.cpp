@@ -7,7 +7,9 @@
 #include <QLabel>
 #include <QDebug>
 
-#include "botactor.h"
+#include "botchance.h"
+#include "botguessing.h"
+#include "botquickest.h"
 #include "playeractor.h"
 
 
@@ -98,19 +100,17 @@ void NewSeriesDialog::generateActorsAndStart()
     }
     else
     {
-        BotActor::Strategy s;
         switch (ai1->currentIndex())
         {
             case 0:
-                s = BotActor::quickestWin;
+                player1 = new BotQuickest(nullptr, 0, ai1->currentText());
             break;
             case 1:
-                s = BotActor::highestProbability;
+                player1 = new BotChance(nullptr, 0, ai1->currentText());
             break;
-            case 2:
-                s = BotActor::random;
+            default:
+                player1 = new BotGuessing(nullptr, 0, ai1->currentText());
         }
-        player1 = new BotActor(nullptr, 0, ai1->currentText(), s);
     }
     if (this->player2->currentIndex()==0)
     {
@@ -118,19 +118,17 @@ void NewSeriesDialog::generateActorsAndStart()
     }
     else
     {
-        BotActor::Strategy s;
         switch (ai2->currentIndex())
         {
             case 0:
-                s = BotActor::quickestWin;
+                player2 = new BotQuickest(nullptr, 1, ai2->currentText());
             break;
             case 1:
-                s = BotActor::highestProbability;
+                player2 = new BotChance(nullptr, 1, ai2->currentText());
             break;
-            case 2:
-                s = BotActor::random;
+            default:
+                player2 = new BotGuessing(nullptr, 1, ai2->currentText());
         }
-        player2 = new BotActor(nullptr, 1, ai2->currentText(), s);
     }
 
     emit startNewSeries({player1, player2});

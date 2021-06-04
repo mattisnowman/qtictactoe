@@ -31,11 +31,13 @@ SOURCES += \
         src/gamescene.cpp \
         src/game.cpp \
         src/playeractor.cpp \
-        src/botactor.cpp \
         src/endview.cpp \
         src/actor.cpp \
         src/newseriesdialog.cpp \
-        src/actornote.cpp
+        src/actornote.cpp \
+        src/botquickest.cpp \
+        src/botchance.cpp \
+        src/botguessing.cpp
 
 HEADERS += \
         src/mainwindow.h \
@@ -44,9 +46,11 @@ HEADERS += \
         src/gamescene.h \
         src/game.h \
         src/playeractor.h \
-        src/botactor.h \
         src/endview.h \
         src/actor.h \
         src/newseriesdialog.h \
         src/actornote.h \
-    src/colors.h
+        src/colors.h \
+        src/botquickest.h \
+        src/botchance.h \
+        src/botguessing.h

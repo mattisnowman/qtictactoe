@@ -3,7 +3,7 @@
 #include <QTimer>
 
 #include "playeractor.h"
-#include "botactor.h"
+#include "botquickest.h"
 
 GameScene::GameScene(QObject *parent):
     QGraphicsScene(parent), endItem(nullptr)
@@ -27,7 +27,7 @@ GameScene::GameScene(QObject *parent):
     this->actorNote->setPos(0, 300);
     this->actorNote->setZValue(2);
     this->addItem(this->actorNote);
-    this->newSeries({new PlayerActor(this, 0, "Not a robot"), new BotActor(this, 1, "GoodBot", BotActor::quickestWin)});
+    this->newSeries({new PlayerActor(this, 0, "Player"), new BotQuickest(this, 1, "GoodBot")});
 }
 
 void GameScene::newSeries(const QList<Actor*> &players)
