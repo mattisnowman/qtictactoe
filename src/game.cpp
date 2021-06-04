@@ -67,13 +67,13 @@ int Game::minStepsToWin(Boardstate player, Boardstate opponent)
 
     Boardstate validMoves = legalMoves(player, opponent);
 
-    //This is a win. No more steps to win required: return 0
+    //This is a win. No more steps to win required: return 1
     if (isWin(player))
         return 1;
-    //This is a loss, Return negative number.
+    //This is a loss, Return negative -1.
     if (isWin(opponent))
         return -1;
-    //Rate a draw as a loose but at a later point than a straightout loss.
+    //Rate a draw as a loose but at a later point (-2) than a straightout loss.
     if (validMoves == empty)
         return -2;
 

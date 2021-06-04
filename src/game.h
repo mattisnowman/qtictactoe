@@ -10,7 +10,7 @@ class Game
 public:
 
     // An enum type to describe the state of the board for a single player
-    enum boardstate{
+    enum Boardfield{
         empty = 0b000000000,
         a00   = 0b000000001,
         a01   = 0b000000010,
@@ -32,7 +32,7 @@ public:
         win_d2 = a02 | a11 | a20
     };
 
-    Q_DECLARE_FLAGS(Boardstate, boardstate);
+    Q_DECLARE_FLAGS(Boardstate, Boardfield);
 
     enum Outcome{
         draw = 0x0,
