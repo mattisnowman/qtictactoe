@@ -29,7 +29,7 @@ private:
 
     // Returns a positive number with the minimum steps to win +1
     // Returns a negative number with the maximum steps until loose -1, if no win is predicted
-    // A draw counts as a loss (negative number) but with one additional step added (-2)
+    // A draw generates a return value with undefined sign but with the largest absolute value
     static int minStepsToWin(Game::Boardstate player, Game::Boardstate opponent);
 
     // Return the move with the highest chance of winning if both players follow this strategy

@@ -28,7 +28,6 @@ void BotActor::makeAMove()
 
     if (strategy == quickestWin)
     {
-        qDebug() << "-------------";
         qDebug().noquote() << this->name << ": using quickest way to win:";
         qDebug().noquote() << printStepsToWin(player, opponent, playerId == 1);
         qDebug() << "-------------";
@@ -39,7 +38,6 @@ void BotActor::makeAMove()
         qDebug() << "-------------";
         qDebug().noquote() << this->name << ": using highest probability to win:";
         qDebug().noquote() << printChanceToWin(player, opponent, playerId == 1);
-        qDebug() << "-------------";
         move = highestChanceOfWinningMove(player, opponent);
     }
     else if (strategy == random)
@@ -95,7 +93,7 @@ double BotActor::chanceOfWinning(const Game::Boardstate &player, const Game::Boa
 
 int BotActor::minStepsToWin(Game::Boardstate player, Game::Boardstate opponent)
 {
-    int bestStepstoWin = 12;
+    int bestStepstoWin = 20;
     int bestStepstoNotLoose = 0;
 
     Game::Boardstate validMoves = Game::legalMoves(player, opponent);
@@ -106,9 +104,11 @@ int BotActor::minStepsToWin(Game::Boardstate player, Game::Boardstate opponent)
     //This is a loss, Return negative -1.
     if (Game::isWin(opponent))
         return -1;
-    //Rate a draw as a loss but at a later point (-2) than a straightout loss.
+    // Rate a draw as a loss but at a later point (-2) than a straightout loss.
+    // The sign for draw will iterate between +- but it will always be the latest loss or latest win.
+    // Thus it will be prefered over all losses and all wins will be prefered over it
     if (validMoves == Game::empty)
-        return -2;
+        return 2;
 
     // If game is not decided let players make moves recursivly until it is decided
     for (int i=0; i<9; i++)
@@ -134,7 +134,7 @@ int BotActor::minStepsToWin(Game::Boardstate player, Game::Boardstate opponent)
         }
     }
 
-    if (bestStepstoWin < 11)           // This means the game is winnable
+    if (bestStepstoWin < 20)          // This means the game is winnable
         return bestStepstoWin+1;      // Return steps to finish from here + 1
     else                              // Game cannot be won
         return bestStepstoNotLoose-1; // Return - (steps until loose + 1)
@@ -165,7 +165,7 @@ Game::Boardstate BotActor::highestChanceOfWinningMove(const Game::Boardstate &pl
 
 Game::Boardstate BotActor::quickestWinOrLatestLooseMove(const Game::Boardstate &player, const Game::Boardstate &opponent)
 {
-    int bestStepstoWin = 11;
+    int bestStepstoWin = 20;
     int bestStepstoNotLoose = 0;
 
     Game::Boardstate bestMove = Game::empty;
@@ -199,13 +199,13 @@ Game::Boardstate BotActor::quickestWinOrLatestLooseMove(const Game::Boardstate &
                 if (stepstoWin < bestStepstoNotLoose)
                 {
                     bestStepstoNotLoose = stepstoWin;
-                    if (bestStepstoWin > 10)
+                    if (bestStepstoWin > 19)
                         bestMove = move;
                 }
                 else if (stepstoWin == bestStepstoNotLoose && rand() % 2)
                 {
                     bestStepstoNotLoose = stepstoWin;
-                    if (bestStepstoWin > 10)
+                    if (bestStepstoWin > 19)
                         bestMove = move;
                 }
             }
