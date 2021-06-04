@@ -91,6 +91,18 @@ bool Game::makeMovePlayer2(const Boardstate &move)
     return false;
 }
 
+bool Game::makeMove(int playerId, const Boardstate &move)
+{
+    if (playerId == 0)
+    {
+        return makeMovePlayer1(move);
+    }
+    else
+    {
+        return makeMovePlayer2(move);
+    }
+}
+
 bool Game::finished() const
 {
     if (legalMoves() == empty)

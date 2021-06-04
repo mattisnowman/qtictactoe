@@ -2,8 +2,6 @@
 
 #include <QMenuBar>
 
-#include "botactor.h"
-#include "playeractor.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), newDialog(nullptr)

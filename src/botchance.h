@@ -14,8 +14,6 @@ public:
 
     void makeAMove();
 
-    QString getNote() const;
-
 private:
 
     // Calculate the chance of winning if all moves are randomized

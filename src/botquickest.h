@@ -14,8 +14,6 @@ public:
 
     void makeAMove();
 
-    QString getNote() const;
-
 private:
     // Returns a positive number with the minimum steps to win +1
     // Returns a negative number with the maximum steps until loose -1, if no win is predicted

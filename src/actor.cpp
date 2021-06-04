@@ -25,9 +25,8 @@ void Actor::itemClicked(int id)
 
 QString Actor::getNote() const
 {
-    return QString();
+    return this->getName() + " is thinking.";
 }
-
 
 const QString &Actor::getName() const
 {

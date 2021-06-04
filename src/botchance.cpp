@@ -13,38 +13,18 @@ void BotChance::makeAMove()
     Game &g = this->game->getGame();
 
     Game::Boardstate move;
-    Game::Boardstate player, opponent;
 
-    if (playerId == 0)
-    {
-        player = g.getPlayer1();
-        opponent = g.getPlayer2();
-    }
-    if (playerId == 1)
-    {
-        player = g.getPlayer2();
-        opponent = g.getPlayer1();
-    }
+    Game::Boardstate player = g.getPlayer(playerId);
+    Game::Boardstate opponent = g.getPlayer(!playerId);
 
     qDebug() << "-------------";
     qDebug().noquote() << this->name << ": using highest probability to win:";
     qDebug().noquote() << printChanceToWin(player, opponent, playerId == 1);
+
     move = highestChanceOfWinningMove(player, opponent);
 
-    if (playerId == 0)
-    {
-        this->game->getGame().makeMovePlayer1(move);
-    }
-    if (playerId == 1)
-    {
-        this->game->getGame().makeMovePlayer2(move);
-    }
+    this->game->getGame().makeMove(playerId, move);
     this->finishedTurn();
-}
-
-QString BotChance::getNote() const
-{
-    return this->getName() + " is thinking.";
 }
 
 double BotChance::chanceOfWinning(const Game::Boardstate &player, const Game::Boardstate &opponent)

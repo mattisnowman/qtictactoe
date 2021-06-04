@@ -13,12 +13,6 @@ public:
     BotGuessing(GameScene *game, int playerId, QString name);
 
     void makeAMove();
-
-    QString getNote() const;
-
-private:
-    // Return a random but valid move
-    static Game::Boardstate randomMove(const Game::Boardstate &player, const Game::Boardstate &opponent);
 };
 
 

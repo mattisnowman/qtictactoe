@@ -13,48 +13,21 @@ void BotGuessing::makeAMove()
     Game &g = this->game->getGame();
 
     Game::Boardstate move;
-    Game::Boardstate player, opponent;
 
-    if (playerId == 0)
-    {
-        player = g.getPlayer1();
-        opponent = g.getPlayer2();
-    }
-    if (playerId == 1)
-    {
-        player = g.getPlayer2();
-        opponent = g.getPlayer1();
-    }
+    Game::Boardstate player = g.getPlayer(playerId);
+    Game::Boardstate opponent = g.getPlayer(!playerId);
 
     qDebug().noquote() << this->name << ": making random move";
-    move = randomMove(player, opponent);
 
-    if (playerId == 0)
-    {
-        this->game->getGame().makeMovePlayer1(move);
-    }
-    if (playerId == 1)
-    {
-        this->game->getGame().makeMovePlayer2(move);
-    }
-    this->finishedTurn();
-}
-
-QString BotGuessing::getNote() const
-{
-    return this->getName() + " is thinking.";
-}
-
-Game::Boardstate BotGuessing::randomMove(const Game::Boardstate &player, const Game::Boardstate &opponent)
-{
     Game::Boardstate validMoves = Game::legalMoves(player, opponent);
-    if (validMoves == Game::empty)
-        return validMoves;
-    Game::Boardstate move;
+    Q_ASSERT(validMoves != Game::empty);
+
     do
     {
         move = Game::Boardstate(1 << rand() % 9);
     }
     while (!(move & validMoves));
-    return move;
+
+    this->game->getGame().makeMove(playerId, move);
+    this->finishedTurn();
 }

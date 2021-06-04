@@ -70,9 +70,13 @@ public:
 
     bool makeMovePlayer2(const Boardstate &move);
 
+    bool makeMove(int playerId, const Boardstate &move);
+
     const Boardstate &getPlayer1() const {return player1;}
 
     const Boardstate &getPlayer2() const {return player2;}
+
+    const Boardstate &getPlayer(int playerId) const { return playerId==0?player1:player2;}
 
     bool finished() const;
 
