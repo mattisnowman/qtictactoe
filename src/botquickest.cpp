@@ -43,7 +43,7 @@ int BotQuickest::minStepsToWin(Game::Boardstate player, Game::Boardstate opponen
     // The sign for draw will iterate between +- but it will always be the latest loss or latest win.
     // Thus it will be prefered over all losses and all wins will be prefered over it
     if (validMoves == Game::empty)
-        return 2;
+        return -2;
 
     // If game is not decided let players make moves recursivly until it is decided
     for (int i=0; i<9; i++)

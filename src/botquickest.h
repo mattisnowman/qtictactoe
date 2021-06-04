@@ -5,6 +5,17 @@
 #include "actor.h"
 #include "game.h"
 
+/*
+ * This bot will make the move that leads to the quickest win.
+ * If no win is possible, the move that leads to a draw is made.
+ * If no draw is possible (there should always be a draw possible),
+ * the move that leads to the latest loss is made.
+ *
+ * For this algorithm to work, we need to predict the behaviour of the opponent.
+ * It is assumed that the opponent uses the same strategy, which coincides with perfect strategy.
+ *
+ * The strategy will allways enforce a draw but lead to a win if the opponent makes an error.
+ */
 
 class BotQuickest : public Actor
 {

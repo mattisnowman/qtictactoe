@@ -5,7 +5,9 @@
 #include "actor.h"
 #include "game.h"
 
-
+/*
+ * This bot will make a move by guessing
+ */
 class BotGuessing : public Actor
 {
 public:
