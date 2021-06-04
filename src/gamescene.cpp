@@ -25,6 +25,7 @@ GameScene::GameScene(QObject *parent):
     }
     this->actorNote = new ActorNote();
     this->actorNote->setPos(0, 300);
+    this->actorNote->setZValue(2);
     this->addItem(this->actorNote);
     this->newSeries({new PlayerActor(this, 0, "Not a robot"), new BotActor(this, 1, "GoodBot", BotActor::quickestWin)});
 }
@@ -64,7 +65,8 @@ void GameScene::nextTurn()
     {
         Game::Outcome result = game.whoWon();
 
-        this->actorNote->setMessage(-1, "");
+        this->actorNote->setMessage(this->startingPlayer,
+                                    this->players[this->startingPlayer]->getName() + " will start the next game.");
 
         if (result == Game::player1win)
             this->player1Wins++;
@@ -81,9 +83,7 @@ void GameScene::nextTurn()
         return;
     }
 
-    this->activePlayer++;
-    if (this->activePlayer >= this->players.size())
-        this->activePlayer -= this->players.size();
+    this->activePlayer = !this->activePlayer;
 
     this->actorNote->setMessage(this->activePlayer, this->players[this->activePlayer]->getNote());
 
@@ -113,11 +113,9 @@ void GameScene::newGame()
     }
 
     this->game.clear();
-    this->activePlayer = this->startingPlayer-1;
 
-    this->startingPlayer++;
-    if (this->startingPlayer >= this->players.size())
-        this->startingPlayer -= this->players.size();
+    this->activePlayer = !this->startingPlayer;
+    this->startingPlayer = !this->startingPlayer;
 
     for(auto b : this->bricks)
     {
